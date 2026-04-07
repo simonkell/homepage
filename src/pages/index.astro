@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import Header from "@/components/Header.astro";
+import Hero from "@/components/Hero.astro";
+import Projects from "@/components/Projects.astro";
+import Focus from "@/components/Focus.astro";
+import Footer from "@/components/Footer.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/site";
+
+const projects = (await getCollection("projects", ({ data }) => !data.draft)).sort(
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order,
+);
+---
+
+<BaseLayout title={site.title} description={site.description}>
+  <Header nav={site.nav} />
+  <main class="mx-auto w-full max-w-2xl px-5 font-mono leading-7">
+    <Hero
+      id="about"
+      eyebrow={site.hero.eyebrow}
+      name={site.name}
+      headline={site.hero.headline}
+      paragraphs={site.hero.paragraphs}
+      links={site.hero.links}
+    />
+    <Projects projects={projects} />
+    <Focus items={site.focus} />
+  </main>
+  <div class="mx-auto w-full max-w-2xl px-5 font-mono">
+    <Footer status={site.contact.status} links={site.contact.links} />
+  </div>
+</BaseLayout>

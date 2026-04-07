@@ -1,0 +1,30 @@
+---
+type LinkItem = {
+  label: string;
+  href: string;
+};
+
+interface Props {
+  status: string;
+  links: LinkItem[];
+}
+
+const { status, links } = Astro.props as Props;
+---
+
+<footer id="contact" class="my-24 scroll-mt-36 border-t border-border pt-8 text-sm">
+  <div class="mb-4 flex items-center justify-center gap-3 text-muted-foreground">
+    <span class="h-2 w-2 rounded-full bg-green-500"></span>
+    <span class="uppercase tracking-[0.2em]">{status}</span>
+    <span class="h-2 w-2 rounded-full bg-green-500"></span>
+  </div>
+  <div class="flex flex-wrap justify-center gap-4">
+    {
+      links.map((link) => (
+        <a class="text-muted-foreground transition-colors duration-200 hover:text-foreground" href={link.href}>
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</footer>

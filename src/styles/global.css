@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(98.8% 0.006 290);
+  --foreground: oklch(17% 0.018 285);
+  --secondary: oklch(96% 0.01 285);
+  --muted: oklch(94% 0.012 285);
+  --muted-foreground: oklch(52% 0.018 285);
+  --border: oklch(88% 0.012 285);
+}
+
+.dark {
+  --background: oklch(14% 0.012 285);
+  --foreground: oklch(96% 0.01 285);
+  --secondary: oklch(22% 0.016 285);
+  --muted: oklch(20% 0.014 285);
+  --muted-foreground: oklch(62% 0.02 285);
+  --border: oklch(28% 0.016 285);
+}
+
+@theme inline {
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgb(34 197 94 / 0.12), transparent 28rem),
+      radial-gradient(circle at bottom right, rgb(34 197 94 / 0.08), transparent 30rem);
+  }
+
+  ::selection {
+    background: rgb(34 197 94 / 0.25);
+  }
+}

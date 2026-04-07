@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/site";
+---
+
+<BaseLayout title={`Seite nicht gefunden - ${site.name}`} description="Diese Seite wurde nicht gefunden.">
+  <main class="mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center px-5 font-mono">
+    <p class="mb-4 text-sm uppercase tracking-[0.28em] text-green-500">404</p>
+    <h1 class="mb-4 text-2xl font-semibold">Seite nicht gefunden</h1>
+    <p class="mb-8 text-muted-foreground">
+      Der Link führt ins Leere. Zurück zur Startseite geht es hier:
+    </p>
+    <a class="text-green-500 hover:text-foreground" href="/">Startseite -&gt;</a>
+  </main>
+</BaseLayout>

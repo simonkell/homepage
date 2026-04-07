@@ -1,0 +1,89 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Project = CollectionEntry<"projects">;
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props as Props;
+const isExternal = (href?: string) => Boolean(href && /^https?:\/\//.test(href));
+---
+
+<section id="projects" class="scroll-mt-36 pt-20">
+  <div class="mb-8 flex items-end justify-between gap-4">
+    <div>
+      <p class="mb-3 text-sm uppercase tracking-[0.28em] text-green-500">projekte</p>
+      <h2 class="text-xl font-semibold">Ausgewählte Arbeiten</h2>
+    </div>
+    <p class="hidden max-w-xs text-right text-sm text-muted-foreground md:block">
+      Markdown-Dateien in <code>src/data/projects</code> steuern diese Liste.
+    </p>
+  </div>
+
+  <div class="space-y-4">
+    {
+      projects.map((project) => {
+        const primaryHref = project.data.url ?? project.data.repo;
+        return (
+          <article class="group rounded-2xl border border-border bg-secondary/30 p-5 transition-colors duration-200 hover:border-green-500/70">
+            <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <h3 class="text-lg font-semibold">
+                {primaryHref ? (
+                  <a
+                    href={primaryHref}
+                    target={isExternal(primaryHref) ? "_blank" : undefined}
+                    rel={isExternal(primaryHref) ? "noreferrer" : undefined}
+                    class="transition-colors duration-200 group-hover:text-green-500"
+                  >
+                    {project.data.title}
+                  </a>
+                ) : (
+                  project.data.title
+                )}
+              </h3>
+              <span class="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wide text-muted-foreground">
+                {project.data.status}
+              </span>
+            </div>
+            <p class="mb-4 text-sm leading-6 text-muted-foreground">
+              {project.data.description}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {project.data.stack.map((item) => (
+                <span class="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
+                  {item}
+                </span>
+              ))}
+            </div>
+            {(project.data.url || project.data.repo) && (
+              <div class="mt-5 flex flex-wrap gap-4 text-sm">
+                {project.data.url && (
+                  <a
+                    href={project.data.url}
+                    target={isExternal(project.data.url) ? "_blank" : undefined}
+                    rel={isExternal(project.data.url) ? "noreferrer" : undefined}
+                    class="text-green-500 hover:text-foreground"
+                  >
+                    Demo ansehen -&gt;
+                  </a>
+                )}
+                {project.data.repo && (
+                  <a
+                    href={project.data.repo}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="text-green-500 hover:text-foreground"
+                  >
+                    Code ansehen -&gt;
+                  </a>
+                )}
+              </div>
+            )}
+          </article>
+        );
+      })
+    }
+  </div>
+</section>

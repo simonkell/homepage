@@ -1,0 +1,27 @@
+---
+type FocusItem = {
+  title: string;
+  description: string;
+};
+
+interface Props {
+  items: FocusItem[];
+}
+
+const { items } = Astro.props as Props;
+---
+
+<section id="focus" class="scroll-mt-36 pt-20">
+  <p class="mb-3 text-sm uppercase tracking-[0.28em] text-green-500">fokus</p>
+  <h2 class="mb-8 text-xl font-semibold">Was diese Seite leisten soll</h2>
+  <div class="grid gap-3 md:grid-cols-3">
+    {
+      items.map((item) => (
+        <article class="rounded-2xl border border-border p-4">
+          <p class="mb-3 text-green-500">&gt; {item.title}</p>
+          <p class="text-sm leading-6 text-muted-foreground">{item.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

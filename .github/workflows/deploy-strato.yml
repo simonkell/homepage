@@ -1,0 +1,62 @@
+name: Deploy to Strato
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-strato
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ vars.SITE_URL || secrets.SITE_URL || 'https://example.com' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy via SFTP
+        env:
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          STRATO_PORT: ${{ secrets.STRATO_PORT || '22' }}
+          STRATO_USERNAME: ${{ secrets.STRATO_USERNAME }}
+          STRATO_PASSWORD: ${{ secrets.STRATO_PASSWORD }}
+          STRATO_TARGET_DIR: ${{ secrets.STRATO_TARGET_DIR }}
+        run: |
+          set -euo pipefail
+
+          : "${STRATO_HOST:?Missing STRATO_HOST secret}"
+          : "${STRATO_USERNAME:?Missing STRATO_USERNAME secret}"
+          : "${STRATO_PASSWORD:?Missing STRATO_PASSWORD secret}"
+
+          REMOTE_DIR="${STRATO_TARGET_DIR:-./}"
+
+          lftp -u "$STRATO_USERNAME","$STRATO_PASSWORD" "sftp://$STRATO_HOST:$STRATO_PORT" <<LFTP
+          set sftp:auto-confirm yes
+          set net:max-retries 2
+          set net:timeout 20
+          mirror --reverse --verbose --parallel=4 dist/ "$REMOTE_DIR"
+          bye
+          LFTP

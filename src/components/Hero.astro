@@ -1,0 +1,46 @@
+---
+type LinkItem = {
+  label: string;
+  href: string;
+};
+
+interface Props {
+  id: string;
+  eyebrow: string;
+  name: string;
+  headline: string;
+  paragraphs: string[];
+  links: LinkItem[];
+}
+
+const { id, eyebrow, name, headline, paragraphs, links } = Astro.props as Props;
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+---
+
+<section id={id} class="scroll-mt-36 pt-40 md:pt-48">
+  <p class="mb-4 text-sm uppercase tracking-[0.28em] text-green-500">{eyebrow}</p>
+  <h1 class="mb-4 text-2xl font-semibold text-foreground md:text-3xl">
+    {name}
+  </h1>
+  <p class="mb-8 text-xl leading-8 text-foreground md:text-2xl md:leading-9">
+    {headline}
+  </p>
+  <div class="space-y-5 text-muted-foreground">
+    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+  <div class="mt-8 flex flex-wrap gap-3">
+    {
+      links.map((link) => (
+        <a
+          class="inline-flex items-center rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors duration-200 hover:border-green-500 hover:text-green-500"
+          href={link.href}
+          target={isExternal(link.href) ? "_blank" : undefined}
+          rel={isExternal(link.href) ? "noreferrer" : undefined}
+        >
+          {link.label}
+          <span aria-hidden="true" class="ml-2">-&gt;</span>
+        </a>
+      ))
+    }
+  </div>
+</section>
