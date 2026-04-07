@@ -4,23 +4,23 @@ export const site = {
   description:
     "Private Homepage von Simon Kell mit Projekten, Experimenten und Notizen.",
   nav: [
-    { href: "#about", label: "über mich" },
-    { href: "#projects", label: "projekte" },
-    { href: "#focus", label: "fokus" },
-    { href: "#contact", label: "kontakt" },
+    { href: "#projects", label: "Projekte" },
+    { href: "#focus", label: "Fokus" },
+    { href: "#contact", label: "Kontakt" },
   ],
   hero: {
-    eyebrow: "private homepage",
-    headline: "Ich baue hier einen Ort für meine Projekte.",
+    eyebrow: "Private Homepage",
+    headline: "Ein Zuhause für Projekte, Experimente und Dinge, die ich baue.",
     paragraphs: [
       "Hier entsteht meine persönliche Homepage: ein kurzer Einstieg zu mir, vor allem aber eine kuratierte Sammlung meiner Projekte.",
       "Der technische Fokus liegt bewusst auf einer schnellen statischen Seite, die sauber versioniert und automatisch zu Strato deployed werden kann.",
     ],
     links: [
       { label: "GitHub", href: "https://github.com/simonkell" },
-      { label: "Projekt ansehen", href: "#projects" },
+      { label: "Projekte ansehen", href: "#projects" },
     ],
   },
+  roles: ["Developer", "Maker", "Football Nerd"],
   focus: [
     {
       title: "Projekte sichtbar machen",

@@ -12,30 +12,33 @@ const isExternal = (href?: string) => Boolean(href && /^https?:\/\//.test(href))
 ---
 
 <section id="projects" class="scroll-mt-36 pt-20">
-  <div class="mb-8 flex items-end justify-between gap-4">
+  <header class="section-header">
     <div>
-      <p class="mb-3 text-sm uppercase tracking-[0.28em] text-green-500">projekte</p>
-      <h2 class="text-xl font-semibold">Ausgewählte Arbeiten</h2>
+      <p>Projekte</p>
+      <h2>Ausgewählte Arbeiten</h2>
     </div>
-    <p class="hidden max-w-xs text-right text-sm text-muted-foreground md:block">
+    <p>
       Markdown-Dateien in <code>src/data/projects</code> steuern diese Liste.
     </p>
-  </div>
+  </header>
 
-  <div class="space-y-4">
+  <div class="project-grid">
     {
       projects.map((project) => {
         const primaryHref = project.data.url ?? project.data.repo;
         return (
-          <article class="group rounded-2xl border border-border bg-secondary/30 p-5 transition-colors duration-200 hover:border-green-500/70">
-            <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
-              <h3 class="text-lg font-semibold">
+          <article class="project-card">
+            <div class="project-card-top">
+              <span>{project.data.status}</span>
+              <span>{project.data.stack[0] ?? "Projekt"}</span>
+            </div>
+            <div class="project-card-body">
+              <h3>
                 {primaryHref ? (
                   <a
                     href={primaryHref}
                     target={isExternal(primaryHref) ? "_blank" : undefined}
                     rel={isExternal(primaryHref) ? "noreferrer" : undefined}
-                    class="transition-colors duration-200 group-hover:text-green-500"
                   >
                     {project.data.title}
                   </a>
@@ -43,28 +46,24 @@ const isExternal = (href?: string) => Boolean(href && /^https?:\/\//.test(href))
                   project.data.title
                 )}
               </h3>
-              <span class="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wide text-muted-foreground">
-                {project.data.status}
-              </span>
-            </div>
-            <p class="mb-4 text-sm leading-6 text-muted-foreground">
+            <p>
               {project.data.description}
             </p>
-            <div class="flex flex-wrap gap-2">
+            </div>
+            <div class="stack-list">
               {project.data.stack.map((item) => (
-                <span class="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
+                <span>
                   {item}
                 </span>
               ))}
             </div>
             {(project.data.url || project.data.repo) && (
-              <div class="mt-5 flex flex-wrap gap-4 text-sm">
+              <div class="project-links">
                 {project.data.url && (
                   <a
                     href={project.data.url}
                     target={isExternal(project.data.url) ? "_blank" : undefined}
                     rel={isExternal(project.data.url) ? "noreferrer" : undefined}
-                    class="text-green-500 hover:text-foreground"
                   >
                     Demo ansehen -&gt;
                   </a>
@@ -74,7 +73,6 @@ const isExternal = (href?: string) => Boolean(href && /^https?:\/\//.test(href))
                     href={project.data.repo}
                     target="_blank"
                     rel="noreferrer"
-                    class="text-green-500 hover:text-foreground"
                   >
                     Code ansehen -&gt;
                   </a>
@@ -87,3 +85,149 @@ const isExternal = (href?: string) => Boolean(href && /^https?:\/\//.test(href))
     }
   </div>
 </section>
+
+<style>
+  section {
+    scroll-margin-top: 6rem;
+  }
+
+  .section-header {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-header > p,
+  .section-header div p {
+    color: var(--accent-regular);
+    font-family: var(--font-brand);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .section-header > p {
+    max-width: 32ch;
+    color: var(--gray-300);
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  h2 {
+    margin-top: 0.4rem;
+    font-size: var(--text-3xl);
+  }
+
+  .project-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    display: grid;
+    min-height: 22rem;
+    gap: 2rem;
+    padding: 1.25rem;
+    border: 1px solid var(--gray-800);
+    border-radius: 1.5rem;
+    background:
+      radial-gradient(circle at 20% 15%, var(--accent-overlay), transparent 30%),
+      var(--gradient-subtle);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--theme-transition),
+      box-shadow var(--theme-transition);
+  }
+
+  .project-card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: var(--shadow-md);
+  }
+
+  .project-card-top,
+  .stack-list,
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-card-top {
+    justify-content: space-between;
+    align-self: start;
+  }
+
+  .project-card-top span,
+  .stack-list span {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999rem;
+    color: var(--gray-300);
+    background: color-mix(in srgb, var(--gray-999) 72%, transparent);
+    border: 1px solid var(--gray-800);
+    font-size: var(--text-sm);
+  }
+
+  .project-card-body {
+    align-self: end;
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: var(--text-2xl);
+  }
+
+  h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .project-card-body p {
+    color: var(--gray-300);
+  }
+
+  .project-links {
+    align-self: end;
+  }
+
+  .project-links a {
+    color: var(--accent-regular);
+    font-family: var(--font-brand);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media (min-width: 50em) {
+    .section-header {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-header > p {
+      text-align: right;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 7.5rem;
+    }
+
+    .project-card {
+      min-height: 28rem;
+      border-radius: 2.25rem;
+      padding: 2rem;
+    }
+
+    .project-card:nth-child(odd) {
+      transform: translateY(7.5rem);
+    }
+
+    .project-card:nth-child(odd):hover {
+      transform: translateY(7.25rem);
+    }
+  }
+</style>

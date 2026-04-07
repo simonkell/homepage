@@ -1,6 +1,6 @@
 # Homepage
 
-Persönliche Homepage von Simon Kell, gebaut mit Astro und Tailwind CSS.
+Persönliche Homepage von Simon Kell, gebaut mit Astro und CSS.
 
 ## Entwicklung
 

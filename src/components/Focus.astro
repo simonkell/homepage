@@ -11,17 +11,71 @@ interface Props {
 const { items } = Astro.props as Props;
 ---
 
-<section id="focus" class="scroll-mt-36 pt-20">
-  <p class="mb-3 text-sm uppercase tracking-[0.28em] text-green-500">fokus</p>
-  <h2 class="mb-8 text-xl font-semibold">Was diese Seite leisten soll</h2>
-  <div class="grid gap-3 md:grid-cols-3">
+<section id="focus" class="focus-section">
+  <p class="eyebrow">Fokus</p>
+  <h2>Was diese Seite leisten soll</h2>
+  <div class="focus-grid">
     {
       items.map((item) => (
-        <article class="rounded-2xl border border-border p-4">
-          <p class="mb-3 text-green-500">&gt; {item.title}</p>
-          <p class="text-sm leading-6 text-muted-foreground">{item.description}</p>
+        <article>
+          <p>{item.title}</p>
+          <span>{item.description}</span>
         </article>
       ))
     }
   </div>
 </section>
+
+<style>
+  .focus-section {
+    scroll-margin-top: 6rem;
+  }
+
+  .eyebrow {
+    color: var(--accent-regular);
+    font-family: var(--font-brand);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin-block: 0.4rem 2rem;
+    font-size: var(--text-3xl);
+  }
+
+  .focus-grid {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--gray-800);
+    border-radius: 1.5rem;
+    background-color: var(--gray-999_40);
+    box-shadow: var(--shadow-sm);
+  }
+
+  article {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  article p {
+    color: var(--gray-0);
+    font-family: var(--font-brand);
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  article span {
+    color: var(--gray-300);
+  }
+
+  @media (min-width: 50em) {
+    .focus-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+      padding: 2.5rem;
+      border-radius: 2.25rem;
+    }
+  }
+</style>

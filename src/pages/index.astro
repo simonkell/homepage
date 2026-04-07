@@ -1,10 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import Header from "@/components/Header.astro";
 import Hero from "@/components/Hero.astro";
 import Projects from "@/components/Projects.astro";
 import Focus from "@/components/Focus.astro";
-import Footer from "@/components/Footer.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/site";
 
@@ -14,8 +12,7 @@ const projects = (await getCollection("projects", ({ data }) => !data.draft)).so
 ---
 
 <BaseLayout title={site.title} description={site.description}>
-  <Header nav={site.nav} />
-  <main class="mx-auto w-full max-w-2xl px-5 font-mono leading-7">
+  <main class="stack gap-30 lg:gap-48">
     <Hero
       id="about"
       eyebrow={site.hero.eyebrow}
@@ -23,11 +20,11 @@ const projects = (await getCollection("projects", ({ data }) => !data.draft)).so
       headline={site.hero.headline}
       paragraphs={site.hero.paragraphs}
       links={site.hero.links}
+      roles={site.roles}
     />
-    <Projects projects={projects} />
-    <Focus items={site.focus} />
+    <section class="wrapper stack gap-30 lg:gap-48">
+      <Projects projects={projects} />
+      <Focus items={site.focus} />
+    </section>
   </main>
-  <div class="mx-auto w-full max-w-2xl px-5 font-mono">
-    <Footer status={site.contact.status} links={site.contact.links} />
-  </div>
 </BaseLayout>
