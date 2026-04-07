@@ -53,10 +53,13 @@ jobs:
 
           REMOTE_DIR="${STRATO_TARGET_DIR:-./}"
 
-          lftp -u "$STRATO_USERNAME","$STRATO_PASSWORD" "sftp://$STRATO_HOST:$STRATO_PORT" <<LFTP
+          lftp <<LFTP
+          set cmd:fail-exit yes
           set sftp:auto-confirm yes
-          set net:max-retries 2
-          set net:timeout 20
+          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15"
+          set net:max-retries 1
+          set net:timeout 15
+          open --user "$STRATO_USERNAME" --password "$STRATO_PASSWORD" "sftp://$STRATO_HOST:$STRATO_PORT"
           mirror --reverse --verbose --parallel=4 dist/ "$REMOTE_DIR"
           bye
           LFTP
