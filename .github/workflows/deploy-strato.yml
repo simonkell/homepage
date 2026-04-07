@@ -17,6 +17,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
+      ASTRO_TELEMETRY_DISABLED: "1"
       SITE_URL: ${{ vars.SITE_URL || secrets.SITE_URL || 'https://example.com' }}
     steps:
       - name: Checkout

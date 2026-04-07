@@ -1,184 +1,54 @@
 ---
-type LinkItem = {
-  label: string;
-  href: string;
-};
-
 interface Props {
-  id: string;
-  eyebrow: string;
-  name: string;
-  headline: string;
-  paragraphs: string[];
-  links: LinkItem[];
-  roles: string[];
+	title: string;
+	tagline?: string;
+	align?: 'start' | 'center';
 }
 
-const { id, eyebrow, name, headline, paragraphs, links, roles } = Astro.props as Props;
-const isExternal = (href: string) => /^https?:\/\//.test(href);
+const { align = 'center', tagline, title } = Astro.props;
 ---
 
-<section id={id} class="hero wrapper">
-  <div class="hero-copy stack gap-4">
-    <p class="eyebrow">{eyebrow}</p>
-    <h1>{headline}</h1>
-    <div class="roles" aria-label={`${name} Rollen`}>
-      {roles.map((role) => <span>{role}</span>)}
-    </div>
-    <div class="intro stack gap-4">
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-    <div class="actions">
-    {
-      links.map((link) => (
-        <a
-          class="button"
-          href={link.href}
-          target={isExternal(link.href) ? "_blank" : undefined}
-          rel={isExternal(link.href) ? "noreferrer" : undefined}
-        >
-          {link.label}
-          <span aria-hidden="true" class="ml-2">-&gt;</span>
-        </a>
-      ))
-    }
-    </div>
-  </div>
-
-  <div class="hero-card" aria-label="Kurzprofil">
-    <div class="portrait" aria-hidden="true">SK</div>
-    <p class="card-label">Aktueller Stand</p>
-    <p class="card-title">Homepage Relaunch</p>
-    <p class="card-text">
-      Astro, Markdown-Projekte und automatischer Strato-Deploy per GitHub Actions.
-    </p>
-  </div>
-</section>
+<div class:list={['hero stack gap-4', align]}>
+	<div class="stack gap-2">
+		<h1 class="title">{title}</h1>
+		{tagline && <p class="tagline">{tagline}</p>}
+	</div>
+	<slot />
+</div>
 
 <style>
-  .hero {
-    display: grid;
-    gap: 3rem;
-    align-items: center;
-    padding-block: 3rem 2rem;
-  }
+	.hero {
+		font-size: var(--text-lg);
+		text-align: center;
+	}
 
-  .eyebrow {
-    color: var(--accent-regular);
-    font-family: var(--font-brand);
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
+	.title,
+	.tagline {
+		max-width: 37ch;
+		margin-inline: auto;
+	}
 
-  h1 {
-    max-width: 12ch;
-    color: var(--gray-0);
-    font-size: clamp(3rem, 12vw, var(--text-5xl));
-  }
+	.title {
+		font-size: var(--text-3xl);
+		color: var(--gray-0);
+	}
 
-  .intro {
-    max-width: 58ch;
-    color: var(--gray-300);
-    font-size: var(--text-lg);
-  }
+	@media (min-width: 50em) {
+		.hero {
+			font-size: var(--text-xl);
+		}
 
-  .roles,
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
+		.start {
+			text-align: start;
+		}
 
-  .roles span {
-    padding: 0.5rem 1rem;
-    color: var(--accent-text-over);
-    border-radius: 999rem;
-    background: var(--gradient-accent);
-    box-shadow: var(--shadow-sm);
-    font-family: var(--font-brand);
-  }
+		.start .title,
+		.start .tagline {
+			margin-inline: unset;
+		}
 
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.85rem 1.35rem;
-    border-radius: 999rem;
-    color: var(--accent-text-over);
-    background: var(--gradient-accent);
-    box-shadow: var(--shadow-md);
-    text-decoration: none;
-    font-family: var(--font-brand);
-    font-weight: 700;
-  }
-
-  .button:nth-child(2n) {
-    color: var(--gray-0);
-    background: var(--gray-999_40);
-    border: 1px solid var(--gray-800);
-  }
-
-  .hero-card {
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    gap: 1rem;
-    padding: 1.5rem;
-    min-height: 24rem;
-    border-radius: 2rem;
-    border: 1px solid var(--gray-800);
-    background:
-      radial-gradient(circle at 30% 20%, var(--accent-overlay), transparent 35%),
-      var(--gradient-subtle);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .portrait {
-    align-self: center;
-    justify-self: center;
-    display: grid;
-    place-items: center;
-    width: min(16rem, 70vw);
-    aspect-ratio: 1;
-    border-radius: 35%;
-    background: var(--gradient-accent);
-    color: var(--accent-text-over);
-    font-family: var(--font-brand);
-    font-size: var(--text-5xl);
-    font-weight: 700;
-    box-shadow: var(--shadow-lg);
-  }
-
-  .card-label {
-    color: var(--accent-regular);
-    font-family: var(--font-brand);
-    font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-
-  .card-title {
-    color: var(--gray-0);
-    font-family: var(--font-brand);
-    font-size: var(--text-xl);
-  }
-
-  .card-text {
-    color: var(--gray-300);
-  }
-
-  @media (min-width: 50em) {
-    .hero {
-      grid-template-columns: 6fr 4fr;
-      gap: 4rem;
-      padding-block: 5rem 3rem;
-    }
-
-    .hero-card {
-      min-height: 38rem;
-      border-radius: 4.5rem;
-      padding: 2.5rem;
-    }
-  }
+		.title {
+			font-size: var(--text-5xl);
+		}
+	}
 </style>

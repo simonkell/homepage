@@ -1,10 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
-import sitemap from "@astrojs/sitemap";
+import { defineConfig } from 'astro/config';
 
-const site = process.env.SITE_URL ?? "https://example.com";
-
-export default defineConfig({
-  site,
-  integrations: [sitemap()],
-});
+// https://astro.build/config
+export default defineConfig({});

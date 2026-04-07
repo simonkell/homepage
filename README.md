@@ -1,50 +1,30 @@
-# Homepage
+# Astro Starter Kit: Portfolio
 
-Persönliche Homepage von Simon Kell, gebaut mit Astro und CSS.
-
-## Entwicklung
-
-```bash
-npm install
-npm run dev
+```sh
+npm create astro@latest -- --template portfolio
 ```
 
-## Build
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/portfolio)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/portfolio)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/portfolio/devcontainer.json)
 
-```bash
-npm run build
-npm run preview
-```
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-Die statische Seite wird nach `dist/` gebaut und kann direkt auf einen Webspace
-hochgeladen werden.
+![portfolio](https://user-images.githubusercontent.com/357379/210779178-a98f0fb7-6b1a-4068-894c-8e1403e26654.jpg)
 
-## Inhalte pflegen
+## 🧞 Commands
 
-- Grunddaten und Links: `src/site.ts`
-- Projektkarten: `src/data/projects/*.md`
-- Globales Styling: `src/styles/global.css`
+All commands are run from the root of the project, from a terminal:
 
-Neue Projekte legst du als Markdown-Datei in `src/data/projects/` an. Dateien
-mit `draft: true` erscheinen nicht auf der Startseite.
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## Strato-Deploy per GitHub Actions
+## 👀 Want to learn more?
 
-Der Workflow `.github/workflows/deploy-strato.yml` baut die Seite bei jedem Push
-auf `main` und spiegelt `dist/` per SFTP auf den Strato-Webspace.
-
-Lege dafür im GitHub-Repository unter `Settings -> Secrets and variables ->
-Actions` diese Secrets bzw. Variablen an:
-
-- `STRATO_HOST`: dein personalisierter Strato-SFTP-Hostname, z. B. aus dem
-  Strato-Login
-- `STRATO_USERNAME`: dein SFTP-Benutzer
-- `STRATO_PASSWORD`: das SFTP-Passwort
-- `STRATO_TARGET_DIR`: optional, z. B. `./`, wenn der SFTP-Benutzer direkt im
-  Webroot startet
-- `SITE_URL`: optional als Repository Variable oder Secret, z. B.
-  `https://deine-domain.de`
-
-Der Workflow löscht remote bewusst keine alten Dateien. Wenn das Zielverzeichnis
-dediziert nur für diese Seite genutzt wird, kannst du später im Workflow bei
-`mirror` noch `--delete` ergänzen, damit verwaiste Assets entfernt werden.
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

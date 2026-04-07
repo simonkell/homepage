@@ -1,41 +1,8 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site } from "@/site";
+import Hero from '../components/Hero.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title={`Seite nicht gefunden - ${site.name}`} description="Diese Seite wurde nicht gefunden.">
-  <main class="wrapper not-found stack gap-4">
-    <p>404</p>
-    <h1>Seite nicht gefunden</h1>
-    <p>
-      Der Link führt ins Leere. Zurück zur Startseite geht es hier:
-    </p>
-    <a href="/">Startseite -&gt;</a>
-  </main>
+<BaseLayout title="Not Found" description="404 Error — this page was not found">
+	<Hero title="Page Not Found" tagline="Not found" />
 </BaseLayout>
-
-<style>
-  .not-found {
-    min-height: 55vh;
-    justify-content: center;
-  }
-
-  .not-found > p:first-child {
-    color: var(--accent-regular);
-    font-family: var(--font-brand);
-    font-weight: 700;
-    letter-spacing: 0.16em;
-  }
-
-  .not-found > p {
-    max-width: 40ch;
-    color: var(--gray-300);
-  }
-
-  .not-found a {
-    color: var(--accent-regular);
-    font-family: var(--font-brand);
-    font-weight: 700;
-    text-decoration: none;
-  }
-</style>
